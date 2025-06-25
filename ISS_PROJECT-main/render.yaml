@@ -4,4 +4,4 @@ services:
     env: python
     plan: free
     buildCommand: ""
-    startCommand: "python app1.py"
+    startCommand: "python3 app1.py"
