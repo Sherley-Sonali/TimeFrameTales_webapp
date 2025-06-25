@@ -30,23 +30,10 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-app.config['DATABASE'] = 'postgresql://ars_project_24:nFB1gdzfCFoG3th7gxpEWw@iss-project-1-2-4150.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/iss_project?sslmode=verify-full&sslrootcert=root.crt'
+app.config['DATABASE'] = 'postgresql://ars_project_24:nFB1gdzfCFoG3th7gxpEWw@iss-project-1-2-4150.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/iss_project?sslmode=require'
 
 def connect_to_database():
-    dsn = app.config['DATABASE']
-    # Parse DSN URL
-    url_parts = list(urlparse(dsn))
-    query = parse_qs(url_parts[4])
-
-    # Add or override SSL parameters
-    query['sslmode'] = ['verify-full']
-    query['sslrootcert'] = ['system']
-
-    # Encode back to query string
-    url_parts[4] = urlencode(query, doseq=True)
-
-    final_dsn = urlunparse(url_parts)
-    return psycopg2.connect(final_dsn)
+    return psycopg2.connect(app.config['DATABASE'])
 
 connection = connect_to_database()
 db = connect_to_database()
