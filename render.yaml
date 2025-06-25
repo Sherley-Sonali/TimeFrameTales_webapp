@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: timeframe-tales-webapp
+    env: python
+    plan: free
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel
+      pip install -r ISS_PROJECT-main/requirements.txt
+    startCommand: |
+      python ISS_PROJECT-main/app1.py
