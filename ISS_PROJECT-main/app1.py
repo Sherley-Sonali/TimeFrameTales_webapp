@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, send_file
 import hashlib
 import os
-import tkinter as tk
-from tkinter import ttk
 from pydub import AudioSegment
 from moviepy.editor import VideoClip,ColorClip,VideoFileClip,CompositeVideoClip, concatenate_videoclips,AudioFileClip, vfx, clips_array
 from moviepy.video.fx.fadein import fadein
