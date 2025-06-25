@@ -22,7 +22,7 @@ import numpy as np
 import psycopg2
 from psycopg2 import Error
 import base64
-
+from urllib.parse import urlparse, urlunparse, parse_qs, urlencode
 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 # import mysql.connector
@@ -33,8 +33,20 @@ app.secret_key = 'your_secret_key'
 app.config['DATABASE'] = 'postgresql://ars_project_24:nFB1gdzfCFoG3th7gxpEWw@iss-project-1-2-4150.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/iss_project?sslmode=verify-full&sslrootcert=root.crt'
 
 def connect_to_database():
-    return psycopg2.connect(app.config['DATABASE'] + "?sslmode=verify-full&sslrootcert=system")
+    dsn = app.config['DATABASE']
+    # Parse DSN URL
+    url_parts = list(urlparse(dsn))
+    query = parse_qs(url_parts[4])
 
+    # Add or override SSL parameters
+    query['sslmode'] = ['verify-full']
+    query['sslrootcert'] = ['system']
+
+    # Encode back to query string
+    url_parts[4] = urlencode(query, doseq=True)
+
+    final_dsn = urlunparse(url_parts)
+    return psycopg2.connect(final_dsn)
 
 connection = connect_to_database()
 db = connect_to_database()
