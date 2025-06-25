@@ -33,7 +33,8 @@ app.secret_key = 'your_secret_key'
 app.config['DATABASE'] = 'postgresql://ars_project_24:nFB1gdzfCFoG3th7gxpEWw@iss-project-1-2-4150.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/iss_project?sslmode=verify-full&sslrootcert=root.crt'
 
 def connect_to_database():
-    return psycopg2.connect(app.config['DATABASE'])
+    return psycopg2.connect(app.config['DATABASE'] + "?sslmode=verify-full&sslrootcert=system")
+
 
 connection = connect_to_database()
 db = connect_to_database()
